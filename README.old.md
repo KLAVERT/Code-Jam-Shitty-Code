@@ -1,2 +1,0 @@
-## Code Jam Shitty Code 
-
