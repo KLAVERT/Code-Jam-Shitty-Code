@@ -24,6 +24,6 @@ pnpm i
 Laat `pnpm` eventjes zijn ding doen om het project te installeren
 vervolgens doe je het project starten. Dit doe je door het volgende command uit te voeren:
 ```bash
-npm start
+pnpm start
 ```
 Wanneer de code compiled zonder errors is het gelukt! Je kan officieel beginnen aan de code jam! Veel plezier en succes!
