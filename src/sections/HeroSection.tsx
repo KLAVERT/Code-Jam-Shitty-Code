@@ -42,12 +42,12 @@ export const HeroSection = () => {
     return () => console.log('Component unmounted');
   }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = 'auto';
-    }
-  }, []);
+  // useEffect(() => {
+  //   document.body.style.overflow = 'hidden';
+  //   return () => {
+  //     document.body.style.overflow = 'auto';
+  //   }
+  // }, []);
 
   const handleVideoLoad = useCallback(() => {
     setVideoLoaded(true);

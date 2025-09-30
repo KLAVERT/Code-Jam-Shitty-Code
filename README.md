@@ -1,5 +1,5 @@
 # Gebruik van PNPM & Shitty Code code jam 
-*Voor deze kennisdeling & code jam ga je leren met code te werken van slechte developers & leer je hoe je pnpm moet installeren en gebruiken. Veel succes en plezier namens ons!*
+*Voor deze kennisdeling & code jam ga je leren met code te werken van slechte developers & leer je hoe je pnpm moet installeren en gebruiken. Ook leer je te werken met tailwind als je dit nog niet kan of ga je het gebruiken! Veel succes en plezier namens ons!*
 
 ## PNPM installation
 Om dit project te runnen heb je `pnpm` nodig. Dit installeer je door het volgende in je terminal te typen van je code editor of windows terminal:
