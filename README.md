@@ -6,6 +6,14 @@ Om dit project te runnen heb je `pnpm` nodig. Dit installeer je door het volgend
 ```bash
 Invoke-WebRequest https://get.pnpm.io/install.ps1 -UseBasicParsing | Invoke-Expression
 ```
+Als je al npm hebt kan je ook 
+```bash
+npm install -g pnpm@latest-10
+```
+of op macos 
+```bash
+brew install pnpm
+```
 Hierna restart je je code editor of open je een nieuwe terminal. Sommige code editors hebben een restart nodig om `pnpm` te kunnen gebruiken
 
 ## Het draaien van het project
