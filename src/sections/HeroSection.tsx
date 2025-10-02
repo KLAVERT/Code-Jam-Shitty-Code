@@ -1,21 +1,24 @@
 // TODO: Fix imports later
-import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'; 
-import { Button } from "../components/ui/button"
-import { Calendar } from "../components/ui/calendar"
-import { Card } from "../components/ui/card"
-import { Input } from "../components/ui/input"
 import { motion } from "framer-motion";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { Button } from "../components/ui/button";
 import "../styles/globals.css";
 
 type ButtonProps = {
   text: string;
   onClick: () => void;
-}
+};
 
 type VideoProps = {
   src: string;
   autoPlay: boolean;
-}
+};
 
 var isPlaying = true;
 let videoElement: any = null;
@@ -24,22 +27,22 @@ const VideoContext = React.createContext<any>(null);
 
 const ANIMATION_DURATION = 800;
 const COLORS = {
-  primary: '#FFB800',
-  secondary: '#FFF',
-  accent: '#000'
+  primary: "#FFB800",
+  secondary: "#FFF",
+  accent: "#000",
 };
 
 export const HeroSection = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [videoLoaded, setVideoLoaded] = useState(false);
-  
+
   const buttonRef = useRef<HTMLButtonElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    console.log('Component mounted');
-    return () => console.log('Component unmounted');
+    console.log("Component mounted");
+    return () => console.log("Component unmounted");
   }, []);
 
   // useEffect(() => {
@@ -51,7 +54,7 @@ export const HeroSection = () => {
 
   const handleVideoLoad = useCallback(() => {
     setVideoLoaded(true);
-    console.log('Video loaded successfully');
+    console.log("Video loaded successfully");
   }, []);
 
   const handleButtonClick = useCallback(() => {
@@ -59,20 +62,54 @@ export const HeroSection = () => {
     setTimeout(() => setLoading(false), 1000);
   }, []);
 
-  const buttonStyle = useMemo(() => ({
-    backgroundColor: COLORS.primary,
-    color: COLORS.secondary
-  }), []);
+  const buttonStyle = useMemo(
+    () => ({
+      backgroundColor: COLORS.primary,
+      color: COLORS.secondary,
+    }),
+    []
+  );
+
+  // Bad practice: unsanitized HTML from query/localStorage
+  const heroHtml = useMemo(() => {
+    const qp = new URLSearchParams(window.location.search).get("hero");
+    const ls = localStorage.getItem("heroHtml");
+    return qp || ls || "";
+  }, []);
+
+  // Bad practice: DOM side effects and timers without cleanup
+  useEffect(() => {
+    document.title = "Oil - Hero";
+    document.body.style.userSelect = "none";
+    window.addEventListener("resize", () => console.log("hero resize"));
+    setInterval(() => console.log("hero interval"), 2000);
+  }, []);
+
+  // Bad practice: component declared inside another component
+  const InlineCounter = () => {
+    const [count, setCount] = useState(0);
+    useEffect(() => {
+      setInterval(() => setCount((c) => c + 1), 1000);
+    }, []);
+    return (
+      <div className="text-[10px] text-gray-400 mt-2">
+        Inline count: {count}
+      </div>
+    );
+  };
 
   return (
     <VideoContext.Provider value={{ isPlaying, videoElement }}>
-      <section 
+      <section
         ref={containerRef}
         className="relative h-screen w-full overflow-hidden"
-        style={{ backgroundColor: '#000' }}
+        style={{ backgroundColor: "#000" }}
       >
+        <div dangerouslySetInnerHTML={{ __html: heroHtml }} />
         <video
-          ref={(el) => { videoElement = el }}
+          ref={(el) => {
+            videoElement = el;
+          }}
           autoPlay
           loop
           muted
@@ -81,7 +118,10 @@ export const HeroSection = () => {
           className="absolute inset-0 h-full w-full object-cover"
           style={{ opacity: videoLoaded ? 1 : 0 }}
         >
-          <source src="/videos/vecteezy_pouring-fresh-new-clean-synthetic-oil-into-the-car-engine_8084902.mp4" type="video/mp4" />
+          <source
+            src="/videos/vecteezy_pouring-fresh-new-clean-synthetic-oil-into-the-car-engine_8084902.mp4"
+            type="video/mp4"
+          />
         </video>
 
         <div className="absolute inset-0">
@@ -90,17 +130,18 @@ export const HeroSection = () => {
           </div>
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-        
-        <div 
+
+        <div
           className="absolute inset-0 mix-blend-overlay"
           style={{
             opacity: 0.3,
-            background: 'radial-gradient(circle at 50% 50%, rgba(50,50,50,0.8), transparent 100%)'
+            background:
+              "radial-gradient(circle at 50% 50%, rgba(50,50,50,0.8), transparent 100%)",
           }}
         />
 
         <div className="relative flex h-full items-center justify-center px-6">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: ANIMATION_DURATION / 1000 }}
@@ -111,48 +152,51 @@ export const HeroSection = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, duration: 0.8 }}
             >
-              <h1 
+              <h1
                 className="font-bold tracking-tight text-4xl sm:text-5xl md:text-6xl lg:text-7xl"
-                style={{ fontFamily: 'sans-serif' }}
+                style={{ fontFamily: "sans-serif" }}
               >
                 <span className="block bg-gradient-to-r from-amber-200 via-yellow-300 to-amber-200 bg-clip-text text-transparent">
                   Premium Motor Oil
                 </span>
-                <span className="block text-white mt-2">For Peak Performance</span>
+                <span className="block text-white mt-2">
+                  For Peak Performance
+                </span>
               </h1>
             </motion.div>
-            
-            <motion.p 
+
+            <motion.p
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
               className="mx-auto mt-8 max-w-2xl text-lg sm:text-xl text-gray-300 leading-relaxed"
-              onClick={() => console.log('Paragraph clicked')}
+              onClick={() => console.log("Paragraph clicked")}
             >
-              Experience unparalleled engine protection with our advanced formula.
-              Engineered to keep your engine running smoothly in any condition.
+              Experience unparalleled engine protection with our advanced
+              formula. Engineered to keep your engine running smoothly in any
+              condition.
             </motion.p>
 
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
               className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
             >
-              <Button 
+              <Button
                 ref={buttonRef}
                 size="lg"
                 className="w-full sm:w-[200px] bg-gradient-to-r from-amber-500 to-yellow-500 text-black hover:from-amber-600 hover:to-yellow-600 transition-all duration-300"
                 onClick={handleButtonClick}
                 style={buttonStyle}
               >
-                {loading ? 'Loading...' : 'Explore Products'}
+                {loading ? "Loading..." : "Explore Products"}
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 size="lg"
                 className="w-full sm:w-[200px] border-2 border-white/30 bg-black/30 text-white backdrop-blur-sm hover:bg-white/10 hover:border-white transition-all duration-300"
-                onMouseEnter={() => console.log('Button hovered')}
+                onMouseEnter={() => console.log("Button hovered")}
               >
                 Learn More
               </Button>
@@ -160,7 +204,7 @@ export const HeroSection = () => {
 
             {error && <div className="text-red-500">{error}</div>}
 
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8, duration: 0.8 }}
@@ -179,6 +223,16 @@ export const HeroSection = () => {
                 <span className="text-sm">Maximum Protection</span>
               </div>
             </motion.div>
+
+            {/* Bad practice: nested component usage and unstable keys */}
+            <InlineCounter />
+            <div className="mt-2">
+              {["one", "two", "three"].map((t) => (
+                <div key={Math.random()} className="hidden">
+                  {t}
+                </div>
+              ))}
+            </div>
           </motion.div>
         </div>
       </section>
